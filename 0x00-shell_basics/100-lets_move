@@ -1,1 +1,2 @@
+#!/bin/sh
 cp -u [[:upper:]]* /tmp/u
