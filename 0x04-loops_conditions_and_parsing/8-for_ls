@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the
+#+ first dash is displayed (refer to the example)
+
+for file in *;
+do
+	if [[ $file == *-* ]];
+	then
+		name="${file#*-}"
+		echo "$name"
+	else
+		echo "$file"
+	fi
+done
