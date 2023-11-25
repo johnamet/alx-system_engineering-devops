@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# The script is displaying "Best School" 10 times
+
+counter=1
+while [ $counter -le 10 ]
+do
+	case "$counter" in
+	4)
+		echo "bad luck"
+		;;
+	8) 
+		echo "good luck"
+		;;
+	*)
+		echo "Best School"
+		;;
+	esac
+
+	((counter++))
+done
