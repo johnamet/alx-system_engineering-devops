@@ -4,14 +4,12 @@
 counter=1
 while [ $counter -le 10 ]
 do
-	n="Best School"
+	echo "Best School"
 
 	if [ $counter -eq 9 ];
 	then
-		n="Hi"
+		echo "Hi"
 	fi
-
-	echo "$n"
 
 	((counter++))
 done
