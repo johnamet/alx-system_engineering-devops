@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Displays `To infinity and beyond` indefinitely
+
+#set an arbitrary counter
+counter=2
+
+# set loop to iterate without exit strategy
+while [ $counter -eq 2 ]
+do
+	echo "To infinity and beyond"
+	sleep 2
+done
