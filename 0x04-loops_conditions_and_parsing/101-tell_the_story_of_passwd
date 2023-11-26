@@ -9,8 +9,8 @@ then
 	exit
 fi
 
-while IFS=":" read -r f1 f2 f3 f4 f5 f6 f7
-do
-	echo "The user $f1 is part of the $f4 gang, lives in $f6 rides $f7. $f3's place is protected by the passcode $f2, more info about the user here: $f5"
-
+# Read the passwd file line by line using a while loop
+while IFS=":" read -r username password uid gid gecos homedir shell; do
+    # Display the required information
+    echo "The user $username is part of the $gid gang, lives in $homedir, and rides $shell. $uid's place is protected by the passcode $password, more info about the user here: $gecos"
 done < "$passwd_file"
