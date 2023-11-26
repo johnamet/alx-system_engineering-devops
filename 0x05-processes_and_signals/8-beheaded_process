@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Stop bash ./4-to_infinity_and_beyond" process
 
-target_process="bash ./7-high_lander"
+target_process="bash ./7-highlander"
 pid=$(pgrep -f "$target_process")
 
 if [ -n "$pid" ];
