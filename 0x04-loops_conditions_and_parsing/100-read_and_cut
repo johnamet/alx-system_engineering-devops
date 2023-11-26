@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# The script displays the content of the fle /etc/passwd.
+
+passwd_file="/etc/passwd"
+
+if [ ! -e "$passwd_file" ];
+then
+	exit
+fi
+
+while IFS=":" read -r username uid homedir;
+do
+	echo "$username"
+	echo "$uid"
+	echo "$homedir"
+
+done < "$passwd_file"
