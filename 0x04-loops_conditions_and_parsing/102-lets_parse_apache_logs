@@ -11,4 +11,4 @@ then
 fi
 
 # Display the visiotr IP with status code
-awk '{print $1 " " $10}' apache-access.log
+awk '{print $1 " " $9}' apache-access.log
