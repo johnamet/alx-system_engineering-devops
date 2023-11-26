@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Displays `To infinity and beyond` indefinitely
+
+#msg to print
+msg="To infinity and beyond"
+
+# function to change msg when sigterm is received
+fight()
+{
+	msg="I am invincible!!!"
+}
+
+#trap sigterm signal
+trap 'fight' SIGTERM
+
+#set an arbitrary counter
+counter=2
+
+# set loop to iterate without exit strategy
+while [ $counter -eq 2 ]
+do
+	echo "$msg"
+	sleep 2
+done
