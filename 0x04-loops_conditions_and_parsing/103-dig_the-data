@@ -11,4 +11,4 @@ then
 fi
 
 # Display the visiotr IP with status code
-awk '{ groups[$1" "$9]++; } END { for (group in groups) print groups[group], group; }' "$file" | sort -rn
+awk '{ groups[$1" "$9]++; } END { for (group in groups) print "\t", groups[group], group ; }' apache-access.log | sort -rn
