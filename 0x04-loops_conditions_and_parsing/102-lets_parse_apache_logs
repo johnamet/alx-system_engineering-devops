@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# The scripts dispalys the visitor IP along with
+#+ the HTTP status code from the APache log file
+
+file="apache-access.log"
+
+# Check if the file exists
+if [ ! -e $file ];
+then
+	exit
+fi
+
+# Display the visiotr IP with status code
+awk '{print $1 " " $10}' apache-access.log
