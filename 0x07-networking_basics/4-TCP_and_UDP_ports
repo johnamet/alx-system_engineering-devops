@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays the listening sokets and their PID/program name
+
+netstat tulnp
