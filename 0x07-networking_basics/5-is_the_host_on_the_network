@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Pings an IP address passed as an argument
+
+# the Ip address passed
+ip=$1
+
+# Number of expectes args
+ARGS=1
+E_BADARGS=85
+
+# Check if the arg is passed
+if [ $# -ne "$ARGS" ];
+then
+	echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+	exit $E_BADARGS
+fi
+
+# ping the pass IP address 5 times
+ping -c 5 $ip
