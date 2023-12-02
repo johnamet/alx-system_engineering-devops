@@ -5,5 +5,5 @@
 hosts_file="/etc/hosts"
 
 # Modify the localhost /etc/hosts file
-sed -i '/localhost/s/.*/127.0.0.2	localhost/' "$hosts_file"
-sed -i '/facebook/s/.*/8.8.8.8		facebook.com/; t; a 8.8.8.8	facebook.com' "$hosts_file"
+sed -i '/localhost/s/.*/127.0.0.2    localhost/' "$hosts_file"
+sed -i '/facebook/s/.*/8.8.8.8    facebook.com/; t; a 8.8.8.8	facebook.com' "$hosts_file"
