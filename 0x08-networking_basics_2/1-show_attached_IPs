@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ip -o addr show scope global | awk '{gsub ("/", " "); print $4}'
