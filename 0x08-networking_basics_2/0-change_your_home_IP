@@ -2,8 +2,25 @@
 # The script resolves localhost to 127.0.0.2
 #+ and facebook.com t0 8.8.8.8
 
+# Check if the script is running in Docker
+if [ -f "/.dockerenv" ]; then
+    echo "Running in Docker environment."
+else
+    echo "This script is intended to be run in a Docker environment."
+    exit 1
+fi
+
+# Define the requirements
+localhost_ip="127.0.0.2"
+facebook_ip="8.8.8.8"
 hosts_file="/etc/hosts"
 
-# Modify the localhost /etc/hosts file
-sed -i '/localhost/s/.*/127.0.0.2    localhost/' "$hosts_file"
-sed -i '/facebook/s/.*/8.8.8.8    facebook.com/; t; a 8.8.8.8	facebook.com' "$hosts_file"
+# Check if the script is being run with root privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script as root (sudo)."
+    exit 1
+fi
+
+# Modify the /etc/hosts file
+echo "$localhost_ip localhost" >> "$hosts_file"
+echo "$facebook_ip facebook.com" >> "$hosts_file"
