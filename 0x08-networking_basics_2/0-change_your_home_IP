@@ -2,8 +2,6 @@
 # The script resolves localhost to 127.0.0.2
 #+ and facebook.com t0 8.8.8.8
 
-localhost_ip="127.0.0.2	localhost"
-facebook_ip="8.8.8.8	facebook.com"
 hosts_file="/etc/hosts"
 
 # Modify the localhost /etc/hosts file
