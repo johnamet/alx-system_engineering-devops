@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# displays all active IP4 addresses
 
 ip -o addr show scope global | awk '{gsub ("/", " "); print $4}'
