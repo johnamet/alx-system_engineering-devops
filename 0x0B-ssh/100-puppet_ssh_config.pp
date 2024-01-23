@@ -1,13 +1,17 @@
 #the scripts sets up my client ssh configuration file so that i can
 # connect to a server without typing a password
+# puppet_manifest.pp
 
-file_line {'Log passless auth':
-  path => '~/.ssh/config',
-  line => 'PasswordAuthentication no'
+file { '/etc/.ssh':
+  ensure => 'directory',
 }
 
-file_line {'Config Identity file':
-  path => '/etc/ssh/ssh_config',
-  line => 'IdentityFile ~/.ssh/school'
+file { '/etc/ssh/ssh_config':
+  ensure  => 'file',
+  content => '
+    Host your_server_hostname
+      IdentityFile ~/.ssh/school
+      PasswordAuthentication no
+  ',
 }
 
