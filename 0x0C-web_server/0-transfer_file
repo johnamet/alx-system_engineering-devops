@@ -16,6 +16,6 @@ IP=$2
 USERNAME=$3
 
 # The path to the ssh private key that scp uses
-SSH_KEY$4
+SSH_KEY=$4
 
-scp -o StritHostKeyChecking=no -i $SSH_KEY $FILE $USERNAME@$IP:~/
+scp -o StrictHostKeyChecking=no -i $SSH_KEY $FILE $USERNAME@$IP:~/
