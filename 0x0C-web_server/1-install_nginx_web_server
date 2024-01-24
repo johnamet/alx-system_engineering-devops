@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
-#The script Install nginx web server
 
-#update the package list
-sudo apt-get update
+if [ $(id -u) -ne 0 ]; then
+    echo "This script must be run as root"
+    exit 1
+fi
 
-#Install the nginx server
-sudo apt-get install -y nginx
+# Install Nginx
+apt-get update
+apt-get install -y nginx
 
-# Start nginx 
-sudo service nginx start
+# Configure Nginx to listen on port 80
+sed -i 's/listen\s*80;/listen 80 default_server;/g' /etc/nginx/sites-available/default
 
-echo "Hello World!" | sudo tee /var/www/html/index.html
+# Restart Nginx
+kill $(cat /var/run/nginx.pid)
+/usr/sbin/nginx
+
+# Create index.html file with Hello World!
+echo "Hello World!" > /var/www/html/index.html
 
