@@ -11,4 +11,4 @@ apt-get -y install nginx
 ufw allow 'Nginx HTTP'
 echo "$STRING" > /var/www/html/index.html
 sed -i "37i\ $REDIRECT" "$FILE"
-service nginx restart
+sudo service nginx restart
