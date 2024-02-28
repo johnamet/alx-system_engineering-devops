@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#Configure your Nginx server so that /redirect_me
-#is redirecting to another page.
-#The redirection must be a “301 Moved Permanently”
 
 # Step 1: Install Nginx
 sudo apt update
@@ -10,7 +7,7 @@ sudo apt install nginx -y
 # Step 2: Configure redirection using sed
 sudo sed -i '/server_name _;/a \
     location \/redirect_me {\
-        return 301 http:\/\/google.com;\
+        return 301 https:\/\/www.tutorialspoint.com\/http\/http_methods.htm;\
     }' /etc/nginx/sites-available/default
 
 # Step 3: Reload Nginx to apply changes
