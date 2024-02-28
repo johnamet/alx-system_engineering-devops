@@ -2,7 +2,6 @@
 #Configure your Nginx server so that /redirect_me
 #is redirecting to another page.
 #The redirection must be a “301 Moved Permanently”
-#!/bin/bash
 
 # Step 1: Install Nginx
 sudo apt update
