@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-#The script Install nginx web server
+# The script installs nginx web server and configures custom HTTP response header
 
-#update the package list
+# Update the package list
 sudo apt-get update
 
-#Install the nginx server
+# Install nginx server
 sudo apt-get install -y nginx
 
 # Start nginx 
 sudo service nginx start
 
-sudo echo "Hello World!"|  sudo tee -a /var/www/html/index.html
+# Add "Hello World!" to default index.html
+sudo echo "Hello World!" | sudo tee -a /var/www/html/index.html
 
-#Test configuration for error
+# Test nginx configuration for errors
 sudo nginx -t
 
-#Add custom header
-sudo sed -i '/^server {/a \\t\n\t\tadd_header X-Served-By $hostname;' /etc/nginx/sites-enabled/default
+# Add custom header to the default server block
+sudo sed -i '/^server {/a \ \t add_header X-Served-By $hostname;' /etc/nginx/sites-enabled/default
 
+# Reload nginx to apply changes
 sudo nginx -s reload
-
