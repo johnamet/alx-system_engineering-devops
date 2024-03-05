@@ -10,13 +10,13 @@ sudo apt-get install -y nginx
 # Start nginx 
 sudo service nginx start
 
-sudo echo "Hello World!" >>  /var/www/html/index.html
+sudo echo "Hello World!"|  sudo tee -a /var/www/html/index.html
 
 #Test configuration for error
 sudo nginx -t
 
 #Add custom header
-sudo nginx -q "add_header X-Served-By '$hostname'"
+sudo sed -i '/server {/a \\tlocation / {\n\t\tadd_header X-Served-By $hostname;\n\t}' /etc/nginx/sites-enabled/default
 
 sudo nginx -s reload
 
