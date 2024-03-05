@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Enable a dedicated PPA
+sudo apt-get install -y --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.9
+
+# Install haproxy
+sudo apt-get install -y haproxy=2.9.*
+
+#Start haproxy
+sudo service haproxy start
+
+#Make a copy of the default haproxy.cfg
+if [ -f /etc/haproxy/haproxy.cfg.orig ]; then
+	sudo cp /etc/haproxy/haproxy.cfg.orig /etc/haproxy/haproxy.cfg
+fi
+
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
+# Configure HAproxy to distribute requests
+#Change enabled to 1
+sudo echo 'ENABLED=1' >> /etc/default/haproxy
+
+#Configure the frontend
+sudo tee -a /etc/haproxy/haproxy.cfg <<EOF
+\tbackend web-backend
+    balance roundrobin
+    server 246179-web-01 54.197.102.167:80 check
+    server 246179-web-02 100.26.227.61:80 check
+EOF
+
+# Restart HAproxy
+sudo service haproxy restart
