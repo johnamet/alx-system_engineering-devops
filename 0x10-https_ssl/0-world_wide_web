@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# The script displays the sub domain the record type and destination
+
+lookup () {
+	local domain="$1"
+	local subdomain="${2:-}"
+
+	# Skip empty subdomain
+	if [[ -z "$subdomain" ]]
+	then
+		return
+	fi
+
+	# Use dig to perform DNS lookup
+	record_type=$(dig +short A "@$domain" "$subdomain.$domain" | head -n 1)
+
+	# Check if recrd exists
+	if [[ -z "$record_type" ]]
+	then
+		return
+	fi
+	# Determine destination based on record type
+	destination=$(dig +short "$record_type" "$subdomain.$domain" | head -n 1 | awk '{print $NF}')
+	
+	# Output result
+	echo "The subdomain $subdomain is a A record and points to $destination"
+}
+
+# Check for mandatory domain argument
+if [[ -z "$1" ]]; then
+  echo "Error: Please provide a domain name as the first argument."
+  exit 1
+fi
+
+domain="$1"
+subdomain="$2"  # Optional second argument
+
+# Check if only domain provided, loop through predefined subdomains
+if [[ -z "$subdomain" ]]; then
+  for subdomain in www lb-01 web-01 web-02; do
+    lookup "$domain" "$subdomain"
+  done
+else
+  # Lookup record for specific subdomain
+  lookup "$domain" "$subdomain"
+fi
