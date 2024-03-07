@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Check if container ID is provided as an argument
+if [ -z "$1" ]; then
+  echo "Error: Please provide the container ID as an argument."
+  exit 1
+fi
+
+# Enter container
+docker exec -it "$1" bash << 'EOF'
+
+# Check Nginx configuration
+if ! grep -q '^listen 80;' /etc/nginx/nginx.conf; then
+  echo "Warning: Nginx not configured to listen on port 80."
+  # Add or modify listen directive (adjust if needed)
+  sed -i 's/listen \[::\]:80;/listen 80;/' /etc/nginx/nginx.conf
+fi
+
+# Check for conflicting processes
+conflicting_process=$(lsof -i tcp:80 | grep -v 'nginx' | awk '{print $1}')
+if [ ! -z "$conflicting_process" ]; then
+  echo "Warning: Process $conflicting_process is using port 80."
+  # Optionally stop the conflicting process (uncomment if desired)
+  # kill -9 $conflicting_process
+fi
+
+# Reload Nginx configuration
+nginx -s reload
+
+# Exit container
+exit
+
+EOF
+
+# Restart container (optional)
+# docker restart "$1"
+
+echo "Nginx configuration and port checked on container $1."
