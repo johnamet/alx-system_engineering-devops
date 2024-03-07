@@ -2,28 +2,27 @@
 # The script displays the sub domain the record type and destination
 
 lookup () {
-	local domain="$1"
-	local subdomain="${2:-}"
+    local domain="$1"
+    local subdomain="${2:-}"
 
-	# Skip empty subdomain
-	if [[ -z "$subdomain" ]]
-	then
-		return
-	fi
+    # Skip empty subdomain
+    if [[ -z "$subdomain" ]]; then
+        return
+    fi
 
-	# Use dig to perform DNS lookup
-	record_type=$(dig +short A "@$domain" "$subdomain.$domain" | head -n 1)
+    # Use dig to perform DNS lookup
+    record_type=$(dig +short -t ANY "@$domain" "$subdomain.$domain" | grep -vE '^(;|$)' | awk '{print $4}')
 
-	# Check if recrd exists
-	if [[ -z "$record_type" ]]
-	then
-		return
-	fi
-	# Determine destination based on record type
-	destination=$(dig +short "$record_type" "$subdomain.$domain" | head -n 1 | awk '{print $NF}')
-	
-	# Output result
-	echo "The subdomain $subdomain is a A record and points to $destination"
+    # Check if record exists
+    if [[ -z "$record_type" ]]; then
+        return
+    fi
+
+    # Determine destination based on record type
+    destination=$(dig +short "$record_type" "$subdomain.$domain" | head -n 1 | awk '{print $NF}')
+
+    # Output result
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
 
 # Check for mandatory domain argument
