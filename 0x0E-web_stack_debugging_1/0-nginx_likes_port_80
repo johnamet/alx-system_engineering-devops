@@ -1,38 +1,36 @@
 #!/usr/bin/env bash
 
-# Check if container ID is provided as an argument
-if [ -z "$1" ]; then
-  echo "Error: Please provide the container ID as an argument."
-  exit 1
+# Check if Nginx service is running
+nginx_status=$(systemctl is-active nginx)
+if [ "$nginx_status" != "active" ]; then
+    sudo systemctl start nginx
 fi
 
-# Enter container
-docker exec -it "$1" bash << 'EOF'
-
-# Check Nginx configuration
-if ! grep -q '^listen 80;' /etc/nginx/nginx.conf; then
-  echo "Warning: Nginx not configured to listen on port 80."
-  # Add or modify listen directive (adjust if needed)
-  sed -i 's/listen \[::\]:80;/listen 80;/' /etc/nginx/nginx.conf
+# Check Nginx configuration for errors
+nginx_test=$(sudo nginx -t 2>&1)
+if [[ "$nginx_test" =~ "failed" ]]; then
+    echo "Nginx configuration test failed: $nginx_test"
+    exit 1
 fi
 
-# Check for conflicting processes
-conflicting_process=$(lsof -i tcp:80 | grep -v 'nginx' | awk '{print $1}')
-if [ ! -z "$conflicting_process" ]; then
-  echo "Warning: Process $conflicting_process is using port 80."
-  # Optionally stop the conflicting process (uncomment if desired)
-  # kill -9 $conflicting_process
+# Check if port 80 is being listened on
+if ! sudo netstat -tuln | grep LISTEN | grep -q ":80 "; then
+    echo "Port 80 is not being listened on"
+    exit 1
 fi
 
-# Reload Nginx configuration
-nginx -s reload
+# Check if firewall is blocking port 80
+if sudo ufw status | grep -q "80/tcp"; then
+    sudo ufw allow 80/tcp
+    echo "Allowed port 80 through firewall"
+fi
 
-# Exit container
-exit
+# Check if SELinux is blocking port 80
+selinux_status=$(sudo getenforce)
+if [ "$selinux_status" != "Disabled" ]; then
+    sudo setenforce 0
+    echo "Disabled SELinux"
+fi
 
-EOF
+echo "Nginx is now configured to listen on port 80"
 
-# Restart container (optional)
-# docker restart "$1"
-
-echo "Nginx configuration and port checked on container $1."
