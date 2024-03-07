@@ -20,12 +20,41 @@ sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
 sudo echo 'ENABLED=1' >> /etc/default/haproxy
 
 #Configure the frontend
-sudo tee -a /etc/haproxy/haproxy.cfg <<EOF
-\tbackend web-backend
-    balance roundrobin
-    server 246179-web-01 54.197.102.167:80 check
-    server 246179-web-02 100.26.227.61:80 check
-EOF
+
+echo "global
+    maxconn 4000  # Maximum number of concurrent connections (adjust as needed)
+    user haproxy    # User under which HAProxy runs (change if required)
+    group haproxy   # Group under which HAProxy runs (change if required)
+    log 127.0.0.1:514 local0
+#    httpclient.timeout.connect 5s  # Connection timeout
+ #   http-client-timeout client 30s  # Client idle timeout
+#    http-client-timeout server 30s  # Server idle timeout
+
+defaults
+    mode http      # Load balancing mode (can be adjusted for different protocols)
+    option httplog  # Enable HTTP request logging (optional)
+    balance roundrobin  # Load balancing algorithm (options: roundrobin, leastconn, etc.)
+
+frontend webserver  # Frontend to receive incoming traffic
+    bind *:80  # Listen on port 80 (can be changed)
+    default_backend webservers  # Default destination for requests
+    timeout client 30s
+    log 127.0.0.1:514 local0 info
+
+backend webservers  # Backend server group
+    balance roundrobin  # Load balancing algorithm within the group
+    timeout connect 5s
+    timeout server 30s
+    option httpchk  # Enable health checks (optional)
+
+    # Replace with IP addresses or hostnames of your backend servers
+    server 246179-web-01 54.197.102.167:80 weight 1 maxconn 200
+    server 246179-web-02 100.26.227.61:80 weight 1 maxconn 200
+    log 127.0.0.1:514 local0 info
+" >> sudo tee -a /etc/haproxy/haproxy.cfg
+
+#kill any service using port 80
+sudo kill $(sudo netstat -tuln | grep ':80' | awk '{print $7}' | cut -d'/' -f1)
 
 # Restart HAproxy
 sudo service haproxy restart
