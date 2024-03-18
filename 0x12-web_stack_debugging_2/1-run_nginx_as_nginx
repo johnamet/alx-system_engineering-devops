@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Install Nginx (if not already installed)
+apt-get update
+apt-get install -y nginx
+
+# Create an nginx user (if not already exists)
+useradd -m -s /bin/bash nginx
+
+# Change ownership of Nginx directories to the nginx user
+chown -R nginx:nginx /var/www/html
+chown -R nginx:nginx /etc/nginx
+
+# Modify Nginx configuration to run as nginx user
+sed -i 's/user www-data;/user nginx;/g' /etc/nginx/nginx.conf
+
+# Update Nginx default site configuration to listen on port 8080
+sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
+
+# Restart Nginx
+sudo service nginx reload
+
+echo "Nginx is now running as the nginx user and listening on port 8080."
+
