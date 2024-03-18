@@ -3,5 +3,7 @@
 # get the username arg
 USERNAME="$1"
 
+# Create user if the user does not exist
+useradd -ms /bin/bash "$USERNAME"
 # Use the sudo to run whoami as the specified user
 sudo -u "$USERNAME" whoami
