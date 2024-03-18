@@ -10,8 +10,25 @@ sudo apt-get install -y nginx
 # Start nginx 
 sudo service nginx start
 
-# Add "Hello World!" to default index.html
-sudo echo "Hello World!" | sudo tee -a /var/www/html/index.html
+
+#permanent redirection
+STRING="Hello World!"
+REDIRECT="\n\tlocation /redirect_me {\n\t\treturn 301 https://linkedin.com/in/jaagboku; \n\t}\n"
+FILE="/etc/nginx/sites-available/default"
+
+# Step 2: Create the custom 404 page
+echo "Ceci n'est pas une page." | sudo tee /var/www/html/404.html
+
+# Step 3: Configure Nginx to use the custom 404 page using sed
+sudo sed -i '/server_name _;/a \
+    error_page 404 /404.html;\
+    location = /404.html {\
+        internal;\
+    }' /etc/nginx/sites-available/default
+
+
+echo "$STRING" > /var/www/html/index.html
+sed -i "37i\ $REDIRECT" "$FILE"
 
 # Test nginx configuration for errors
 sudo nginx -t
