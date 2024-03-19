@@ -1,3 +1,8 @@
-# Forwards request to port 80 to 808
+#!/usr/bin/env bash
+# Forwards request to port 80 to 8080
+#
+# Allow port 8080
 sudo ufw allow 8080/tcp
+
+# Redirect to port 8080
 sudo iptables -t nat -APREROUTING -p tcp --dport 8 -j DNAT --to-destination 0.0.0.0:8080
