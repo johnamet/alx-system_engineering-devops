@@ -1,2 +1,3 @@
+# Forwards request to port 80 to 808
 sudo ufw allow 8080/tcp
 sudo iptables -t nat -APREROUTING -p tcp --dport 8 -j DNAT --to-destination 0.0.0.0:8080
