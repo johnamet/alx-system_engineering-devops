@@ -28,25 +28,6 @@ sudo sed -i '/server_name _;/a \
 echo "$STRING" > /var/www/html/index.html
 sed -i "37i\ $REDIRECT" "$FILE"
 
-
-# Step 4: Reload Nginx to apply changes
-sudo service nginx restart
-
-#!/usr/bin/env bash
-# The script installs nginx web server and configures custom HTTP response header
-
-# Update the package list
-sudo apt-get update
-
-# Install nginx server
-sudo apt-get install -y nginx
-
-# Start nginx 
-sudo service nginx start
-
-# Add "Hello World!" to default index.html
-sudo echo "Hello World!" | sudo tee -a /var/www/html/index.html
-
 # Test nginx configuration for errors
 sudo nginx -t
 
@@ -55,4 +36,3 @@ sudo sed -i '/^server {/a \ \t add_header X-Served-By $hostname;' /etc/nginx/sit
 
 # Reload nginx to apply changes
 sudo nginx -s reload
-
