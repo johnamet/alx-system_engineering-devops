@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Creates a sql dump and compress it
 
 # Check if password argument is provided
 if [ -z "$1" ]; then
