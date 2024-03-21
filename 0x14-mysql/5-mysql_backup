@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Check if password argument is provided
+if [ -z "$1" ]; then
+  echo "Error: Please provide the MySQL root password as an argument."
+  exit 1
+fi
+
+# Set the date for archive filename
+date=$(date +%d-%m-%Y)
+
+# Create the dump
+sudo mysqldump -u root -p"$1" tyrell_corp > backup.sql
+
+# Compress it with proper filename
+tar -cvzf "$date.tar.gz" backup.sql
+
+echo "Backup created: $date.tar.gz"
