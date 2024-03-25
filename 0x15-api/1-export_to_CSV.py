@@ -33,14 +33,15 @@ def gather_data_to_csv(user_id):
     todos_response = requests.get(todo_req_url)
     todos_json = json.loads(todos_response.text)
 
-    with open(f"{user_id}.csv", mode="w") as file:
-        csv.writer = csv.writer(file)
+    with open(f"{user_id}.csv", mode="w", newline="") as file:
+        csv.writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         # csv.writer.writerow(header)
         for todo in todos_json:
             if todo["userId"] == user_id:
-                csv.writer.writerow([user_id, user_json["username"],
-                                     todo["completed"],
-                                     todo["title"]])
+                csv.writer.writerow([f'{user_id}',
+                                     f'{user_json["username"]}',
+                                     f'{todo["completed"]}',
+                                     f'{todo["title"]}'])
 
 
 if __name__ == "__main__":
