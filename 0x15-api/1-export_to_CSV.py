@@ -38,7 +38,7 @@ def gather_data_to_csv(user_id):
         # csv.writer.writerow(header)
         for todo in todos_json:
             if todo["userId"] == user_id:
-                csv.writer.writerow([user_id, user_json["name"],
+                csv.writer.writerow([user_id, user_json["username"],
                                      todo["completed"],
                                      todo["title"]])
 
