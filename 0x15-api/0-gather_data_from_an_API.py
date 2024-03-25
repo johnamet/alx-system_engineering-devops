@@ -3,9 +3,10 @@
 This script gathers data from an API about a user's todo list.
 """
 
-import requests
 import json
 import sys
+
+import requests
 
 
 def gather_data(user_id):
@@ -35,8 +36,10 @@ def gather_data(user_id):
 
     # Filter todos for the specific user
     user_todos_dict = {
-        "completed": [todo for todo in todos_json if todo['userId'] == user_id and todo["completed"]],
-        "uncompleted": [todo for todo in todos_json if todo['userId'] == user_id and not todo["completed"]]
+        "completed": [todo for todo in todos_json
+                      if todo['userId'] == user_id and todo["completed"]],
+        "uncompleted": [todo for todo in todos_json
+                        if todo['userId'] == user_id and not todo["completed"]]
     }
 
     # Count completed and uncompleted todos
@@ -45,8 +48,10 @@ def gather_data(user_id):
     total_todos = num_completed + num_uncompleted
 
     # Print user's todo list summary
-    print("Employee {} has completed {}/{} tasks:".format(user_json["name"], num_completed, total_todos))
-    print("\n".join("\t" + completed["title"] for completed in user_todos_dict["completed"]))
+    print("Employee {} is done with tasks({}/{}):"
+          .format(user_json["name"], num_completed, total_todos))
+    for todo in user_todos_dict["completed"]:
+        print("\t{}".format(todo["title"]))
 
 
 if __name__ == "__main__":
