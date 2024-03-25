@@ -2,12 +2,13 @@
 """
 This script gathers data from an API about a user's todo list.
 """
+import csv
 import json
 import requests
 import sys
 
 
-def gather_data(user_id):
+def gather_data_to_csv(user_id):
     """
     Gather data from an API about a user's todo list.
 
@@ -32,24 +33,14 @@ def gather_data(user_id):
     todos_response = requests.get(todo_req_url)
     todos_json = json.loads(todos_response.text)
 
-    # Filter todos for the specific user
-    user_todos_dict = {
-        "completed": [todo for todo in todos_json
-                      if todo['userId'] == user_id and todo["completed"]],
-        "uncompleted": [todo for todo in todos_json
-                        if todo['userId'] == user_id and not todo["completed"]]
-    }
-
-    # Count completed and uncompleted todos
-    num_completed = len(user_todos_dict["completed"])
-    num_uncompleted = len(user_todos_dict["uncompleted"])
-    total_todos = num_completed + num_uncompleted
-
-    # Print user's todo list summary
-    print("Employee {} is done with tasks({}/{}):"
-          .format(user_json["name"], num_completed, total_todos))
-    for todo in user_todos_dict["completed"]:
-        print("\t {}".format(todo["title"]))
+    with open(f"{user_id}.csv", mode="w") as file:
+        csv.writer = csv.writer(file)
+        # csv.writer.writerow(header)
+        for todo in todos_json:
+            if todo["userId"] == user_id:
+                csv.writer.writerow([user_id, user_json["name"],
+                                     todo["completed"],
+                                     todo["title"]])
 
 
 if __name__ == "__main__":
@@ -60,4 +51,4 @@ if __name__ == "__main__":
     user_id = int(sys.argv[1])
 
     # Gather and display user's todo list
-    gather_data(user_id)
+    gather_data_to_csv(user_id)
