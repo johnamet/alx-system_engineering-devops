@@ -51,7 +51,7 @@ def gather_data(user_id):
     print("Employee {} is done with tasks({}/{}):"
           .format(user_json["name"], num_completed, total_todos))
     for todo in user_todos_dict["completed"]:
-        print("\t{}".format(todo["title"]))
+        print("\t {}".format(todo["title"]))
 
 
 if __name__ == "__main__":
