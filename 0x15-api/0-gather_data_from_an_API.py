@@ -4,9 +4,8 @@ This script gathers data from an API about a user's todo list.
 """
 
 import json
-import sys
-
 import requests
+import sys
 
 
 def gather_data(user_id):
