@@ -17,7 +17,7 @@ def number_of_subscribers(subreddit):
     """
     base_url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     request = requests.get(base_url,
-                           headers={'User-agent': 'johnny@johnny Fedora Linux'},
+                           headers={'User-agent': 'johnny@johnny'},
                            allow_redirects=False)
 
     if request.status_code != 200:
