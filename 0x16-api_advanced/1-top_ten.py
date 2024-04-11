@@ -16,7 +16,7 @@ def top_ten(subreddit):
         The titles of the first 10 posts
     """
 
-    base_url = ("https://www.reddit.com/r/{}/top.json?limit=10"
+    base_url = ("https://www.reddit.com/r/{}/hot.json?limit=10"
                 .format(subreddit))
     request = requests.get(base_url, headers={'User-Agent': 'johnny@johnny'},
                            allow_redirects=False)
