@@ -28,10 +28,8 @@ def number_of_subscribers(subreddit):
     sub_json = request.json()
     data = sub_json["data"]
     children = data["children"]
-
-    return sum([child["data"]["subreddit_subscribers"] for child in children])
-
-
-if __name__ == "__main__":
-    subreddit = sys.argv[1]
-    print(number_of_subscribers(subreddit))
+    try:
+        return sum([child["data"]["subreddit_subscribers"]
+                    for child in children])
+    except:
+        return 0
