@@ -3,10 +3,7 @@
 The script scraps the active subscribers from a subreddit
 """
 
-
-import json
 import requests
-import sys
 
 
 def number_of_subscribers(subreddit):
@@ -25,11 +22,10 @@ def number_of_subscribers(subreddit):
     except Exception as e:
         return 0
 
+    if request.status_code != 200:
+        return 0
+
     sub_json = request.json()
     data = sub_json["data"]
-    children = data["children"]
-    try:
-        return sum([child["data"]["subreddit_subscribers"]
-                    for child in children])
-    except:
-        return 0
+
+    return data["subscribers"]
