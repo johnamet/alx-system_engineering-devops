@@ -8,7 +8,7 @@ import requests
 import sys
 
 
-def gather_data_to_csv():
+def gather_data_all_todo():
     """
     Gather data from an API about a user's todo list.
 
@@ -38,13 +38,6 @@ def gather_data_to_csv():
                                   if todo["userId"] == user["id"]]
                 for user in users_json}
         json.dump(data, file)
-        # csv.writer.writerow(header)
-        # for todo in todos_json:
-        #     if todo["userId"] == user_id:
-        #         csv.writer.writerow([f'{user_id}',
-        #                              f'{user_json["username"]}',
-        #                              f'{todo["completed"]}',
-        #                              f'{todo["title"]}'])
 
 
 if __name__ == "__main__":
@@ -54,4 +47,4 @@ if __name__ == "__main__":
     #     sys.exit(1)
 
     # Gather and display user's todo list
-    gather_data_to_csv()
+    gather_data_all_todo()
