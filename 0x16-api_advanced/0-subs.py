@@ -9,7 +9,7 @@ import requests
 import sys
 
 
-def get_subreddit_subs(subreddit):
+def number_of_subscribers(subreddit):
     """
     The function gets the total number
     of subscribers from a subreddit
@@ -34,4 +34,4 @@ def get_subreddit_subs(subreddit):
 
 if __name__ == "__main__":
     subreddit = sys.argv[1]
-    print(get_subreddit_subs(subreddit))
+    print(number_of_subscribers(subreddit))
