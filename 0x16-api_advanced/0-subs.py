@@ -21,7 +21,7 @@ def number_of_subscribers(subreddit):
 
     try:
         base_url = f"https://www.reddit.com/r/{subreddit}/.json"
-        request = requests.get(base_url, headers = {'User-agent':'alxSE'})
+        request = requests.get(base_url, headers={'User-agent': 'alxSE'})
     except Exception as e:
         return 0
 
