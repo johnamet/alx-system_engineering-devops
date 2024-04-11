@@ -15,12 +15,10 @@ def number_of_subscribers(subreddit):
     Returns:
         The total number of subscribers to the subreddit
     """
-
-    try:
-        base_url = f"https://www.reddit.com/r/{subreddit}/about.json"
-        request = requests.get(base_url, headers={'User-agent': 'alxSE'}, allow_redirects=False)
-    except Exception as e:
-        return 0
+    base_url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    request = requests.get(base_url,
+                           headers={'User-agent': 'johnny@johnny Fedora Linux'},
+                           allow_redirects=False)
 
     if request.status_code != 200:
         return 0
